@@ -881,7 +881,7 @@ class RecurrentIterator(CheckpointableIterator):
                 'source_state':    self._source_iterator.getstate()}
 
     def setstate(self, checkpoint):
-        logger.warning("Entering setstate of iterator...")
+        #logger.warning("Entering setstate of iterator...")
         # take deepcopy of recurrent_state from checkpoint and initial state so that user cannot modify the checkpoint / the initial state
         # by modifying the recurrent_state in place during the step_function
         self._recurrent_state = copy.deepcopy(checkpoint['recurrent_state']) if checkpoint else copy.deepcopy(self._initial_state)
@@ -891,14 +891,14 @@ class RecurrentIterator(CheckpointableIterator):
                 # with all the deepcopies above, in-place modification of recurrent_state within the step_function is now ok
                 self._recurrent_state, output = self._step_function(self._recurrent_state, item)
                 yield output
-        logger.warning("Before _generate()...")
+        #logger.warning("Before _generate()...")
         self._iterator = _generate()
-        logger.warning("Finish _generate()...")
+        #logger.warning("Finish _generate()...")
 
     def __next__(self):
-        logger.warning("Before next(self._iterator)...")
+        #logger.warning("Before next(self._iterator)...")
         _next = next(self._iterator)
-        logger.warning("After next(self._iterator)...")
+        #logger.warning("After next(self._iterator)...")
         return _next
 
     def close(self):
